@@ -1,12 +1,8 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block title %}
- {{ post.title }} | {{ post.location.name }} | {{ post.pub_date|date:"d E Y" }}
+  {# Надо исправить: В эталонной верстке сделано именно так - заголовок, точка, пробел, дата #}
+  {{ post.location }}. {{ post.date }}
 {% endblock %}
 {% block content %}
-  <article>
-    <p>{{ post.pub_date|date:"d E Y" }} | {% if post.location %}{{ post.location.name }}{% else %}Планета Земля{% endif %}<br>
-      <small>От автора @{{ post.author.username }} в категории {% include "includes/category_link.html" %}</small></p>
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.text|linebreaksbr }}</p>
-  </article> 
+  {% include 'blog/includes/post_card.html' %}
 {% endblock %}

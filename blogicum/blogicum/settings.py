@@ -12,16 +12,16 @@ ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
+    'blog.apps.BlogConfig',
+    'pages.apps.PagesConfig',
+    'core.apps.CoreConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog.apps.BlogConfig',
-    'pages.apps.PagesConfig',
-    'core.apps.CoreConfig',
-
 ]
 
 MIDDLEWARE = [
@@ -80,14 +80,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Надо исправить:
-# По ТЗ админка на русском обязательна, так что нужно тут установить ru-RU.
 LANGUAGE_CODE = 'ru-RU'
 
-# Можно лучше:
-# Так же предлагаем найти тут свой город или Москву -
-# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-TIME_ZONE = 'Asia/Irkutsk'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
