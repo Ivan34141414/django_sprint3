@@ -6,8 +6,11 @@ from core.constants import POSTS_BY_PAGE
 from .models import Category, Post
 
 
-def get_published_posts():
-    return Post.objects.select_related(
+def get_published_posts(post_manager=None):
+    if post_manager is None:
+        post_manager = Post.objects
+
+    return post_manager.select_related(
         'category',
         'location',
         'author'
@@ -40,7 +43,7 @@ def category_posts(request, category_slug):
         is_published=True
     )
 
-    posts = get_published_posts().filter(category=category)
+    posts = get_published_posts(category.posts)
 
     return render(
         request,
