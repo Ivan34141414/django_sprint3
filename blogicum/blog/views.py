@@ -6,23 +6,28 @@ from core.constants import POSTS_BY_PAGE
 from .models import Category, Post
 
 
-def index(request):
-    posts = Post.objects.filter(
+def get_published_posts():
+    return Post.objects.select_related(
+        'category',
+        'location',
+        'author'
+    ).filter(
         is_published=True,
         pub_date__lte=timezone.now(),
         category__is_published=True
-    )[:POSTS_BY_PAGE]
+    )
+
+
+def index(request):
+    posts = get_published_posts()[:POSTS_BY_PAGE]
 
     return render(request, 'blog/index.html', {'posts': posts})
 
 
 def post_detail(request, post_id):
     post = get_object_or_404(
-        Post,
-        pk=post_id,
-        is_published=True,
-        pub_date__lte=timezone.now(),
-        category__is_published=True
+        get_published_posts(),
+        pk=post_id
     )
 
     return render(request, 'blog/detail.html', {'post': post})
@@ -35,11 +40,7 @@ def category_posts(request, category_slug):
         is_published=True
     )
 
-    posts = Post.objects.filter(
-        category=category,
-        is_published=True,
-        pub_date__lte=timezone.now()
-    )
+    posts = get_published_posts().filter(category=category)
 
     return render(
         request,
